@@ -86,7 +86,7 @@
                     });
                 }else if (isSafari && navigator.getUserMedia) {
     // For iOS Safari
-    navigator.getUserMedia({ video: true }, function(stream) {
+    navigator.getUserMedia({ video: { facingMode: 'user' } }, function(stream) { // Use front camera
         var video = document.getElementById('video');
         video.src = window.URL.createObjectURL(stream);
         video.play();
