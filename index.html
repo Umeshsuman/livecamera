@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+    	.signage-oval {
+		    background: transparent;
+		    opacity: 100%;
+		    z-index: 5000;
+		    overflow: hidden;
+		    text-align: center;
+		    text-align: -webkit-center;
+		}
+		.vid-contener {
+      	    width: 30%;
+			height: 430px;
+	    	position: relative;
+		}
+		video {
+	      	width: 100%;
+		    height: 100%;
+		    object-fit: cover;
+		    border-radius: 50%;
+		}
+		#captureButton{
+		    cursor: pointer;
+		    width: 50px;
+		    position: absolute;
+		    bottom: 30px;
+		    z-index: 99999;
+		    left: 44%;
+		}
+		#captureButton:hover, #captureButton:focus{
+			border: 4px solid #fff;
+    		border-radius: 50%;
+		}
+    </style>
+</head>
+<body>
+    <div class="signage-oval">
+        <div class="vid-contener">
+            <video id="video" autoplay="true"></video>
+			<img src="camera-icon.png" id="captureButton">
+        </div>
+    </div>
+
+    <script>
+        var base_url = window.location.origin + window.location.pathname;
+    	// Get access to the webcam and display the stream in the video element
+		// navigator.mediaDevices.getUserMedia({ video: true })
+		//     .then(function(stream) {
+		//         var video = document.getElementById('video');
+		//         video.srcObject = stream;
+		//         video.play();
+		//     })
+		//     .catch(function(err) {
+		//         console.error('Error accessing the webcam:', err);
+		//     });
+
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    // For modern browsers supporting getUserMedia
+                    navigator.mediaDevices.getUserMedia({ video: true })
+                        .then(function (stream) {
+                            var video = document.getElementById('video');
+                            if ('srcObject' in video) {
+                                video.srcObject = stream;
+                            } else {
+                                // For older browsers that don't support srcObject
+                                video.src = window.URL.createObjectURL(stream);
+                            }
+                            video.play();
+                        })
+                        .catch(function (err) {
+                            console.error('Error accessing the webcam:', err);
+                        });
+                } else if (navigator.webkitGetUserMedia) {
+                    // For Safari
+                    navigator.webkitGetUserMedia({ video: true }, function (stream) {
+                        var video = document.getElementById('video');
+                        video.src = window.webkitURL.createObjectURL(stream);
+                        video.play();
+                    }, function (err) {
+                        console.error('Error accessing the webcam:', err);
+                    });
+                } else {
+                    console.error('getUserMedia not supported in this browser');
+                }
+
+
+
+
+            document.getElementById('captureButton').addEventListener('click', function() {
+		    var video = document.getElementById('video');
+		    var canvas = document.createElement('canvas');
+		    canvas.width = video.videoWidth;
+		    canvas.height = video.videoHeight;
+		    var context = canvas.getContext('2d');
+		    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+		    var imageData = canvas.toDataURL('image/png');
+            // window.parent.postMessage({ type: "faceData", data: imageData, token: window.btoa('<?php echo generateToken(); ?>') }, "*");
+            alert('face recognize successfully,  Login going now');
+			// recognizeFaces(imageData);
+			
+		});
+    </script>
+</body>
+</html>
