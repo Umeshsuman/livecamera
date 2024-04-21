@@ -73,7 +73,7 @@
                             video.play();
                         })
                         .catch(function (err) {
-                            console.error('Error accessing the webcam:', err);
+                            alert('Error accessing the webcam:', err);
                         });
                 } else if ( !isSafari && navigator.webkitGetUserMedia) {
                     // For Safari
@@ -82,7 +82,7 @@
                         video.src = window.webkitURL.createObjectURL(stream);
                         video.play();
                     }, function (err) {
-                        console.error('Error accessing the webcam:', err);
+                        alert('Error accessing the webcam:', err);
                     });
                 }else if (isSafari && navigator.getUserMedia) {
     // For iOS Safari
@@ -91,10 +91,10 @@
         video.src = window.URL.createObjectURL(stream);
         video.play();
     }, function(err) {
-        console.error('Error accessing the webcam:', err);
+        alert('Error accessing the webcam:', err);
     });
 } else {
-                    console.error('getUserMedia not supported in this browser');
+                    alert('getUserMedia not supported in this browser');
                 }
 
 
